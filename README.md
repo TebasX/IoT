@@ -10,3 +10,5 @@ For this project i used
 4 - laser
 5 - motion sensor
 6 - batteries
+7 - 2 servo motors
+8 - suport pan tilt
