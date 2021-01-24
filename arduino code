@@ -1,0 +1,55 @@
+#include <Servo.h>
+
+#define POS_INICIALX 90
+#define POS_INICIALY 90
+#define X_MINIMO 30
+#define Y_MINIMO 35
+#define X_INTERVALO 6
+#define y_INTERVALO 10
+#define LASER_TEMPO 10 //tempo em segundo que o laser fica ligado
+#define Laser       7  
+#define PIR         6
+
+Servo servoX;
+Servo servoY;
+
+void setup() {
+  servoY.attach(3);
+  servoX.attach(4);
+  servoX.write(POS_INICIALX);
+  servoY.write(POS_INICIALY);
+  pinMode(Laser, OUTPUT);
+  digitalWrite(Laser,LOW);
+  pinMode(PIR, INPUT);
+}
+
+void loop(){
+  int trigger = digitalRead(PIR);
+  if (trigger == HIGH){
+    liga_Laser();
+    posiciona_servos();
+  }else{
+    desliga_Laser();
+  }
+}
+
+// FUNÇOES AUXILIARES
+
+void posiciona_servos(){
+  int posicaoX =(random(0,(X_INTERVALO))*10+(X_MINIMO));
+  int posicaoY = (random(0,(y_INTERVALO))*10+(Y_MINIMO));
+  servoX.write(posicaoX);
+  servoY.write(posicaoY);
+}
+
+void liga_Laser(){
+  for (int i = 0; i < LASER_TEMPO/2; ++i){
+    digitalWrite(Laser,HIGH);
+    posiciona_servos();
+    delay(1000);    
+  }
+}
+
+void desliga_Laser(){
+  digitalWrite(Laser,LOW);
+}
